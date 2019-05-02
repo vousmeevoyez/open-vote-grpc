@@ -22,8 +22,8 @@ _ONE_DAY_IN_SECONDS = 60 * 60 * 24
 
 def start():
     """ start gRPC Server"""
-    host = os.environ.get("SERVER_HOST", '0.0.0.0')
-    port = os.environ.get("SERVER_PORT", '5001')
+    host = os.environ.get("GRPC_HOST", '0.0.0.0')
+    port = os.environ.get("GRPC_PORT", '5001')
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
     # register GRPC Servicer here
     auth_pb2_grpc.add_AuthServicer_to_server(Auth(), server)
