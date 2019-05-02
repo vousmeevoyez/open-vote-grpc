@@ -1,0 +1,133 @@
+syntax = "proto3";
+
+// user service definition
+service User{
+	rpc CreateUser(CreateUserRequest) returns (CreateUserResponse) {}
+	rpc GetUser(GetUserRequest) returns (GetUserResponse) {}
+	rpc UpdateUser(UpdateUserRequest) returns (UpdateUserResponse) {}
+	rpc RemoveUser(RemoveUserRequest) returns (RemoveUserResponse) {}
+	rpc GetUsers(GetUsersRequest) returns (GetUsersResponse) {}
+	rpc EnrollUser(EnrollUserRequest) returns (EnrollUserResponse) {}
+	rpc UnrollUser(UnrollUserRequest) returns (UnrollUserResponse) {}
+}
+
+message UserInfo{
+	string username = 1;
+	string name = 2;
+	string identity_id = 3;
+	string msisdn = 4;
+	string email = 5;
+	string role = 6;
+	string id = 7;
+	string status = 8;
+	string created_at = 9;
+}
+
+message CreateUserRequest{
+	message Header{
+		string access_token = 1;
+	}
+	Header header = 1;
+	message Body{
+		string username = 1;
+		string name = 2;
+		string identity_id = 3;
+		string msisdn = 4;
+		string email = 5;
+		string role = 6;
+		string password = 7;
+	}
+	Body body = 2;
+}
+
+message CreateUserResponse{
+	message Body{
+		string user_id = 1;
+	}
+	Body body = 1;
+}
+
+message GetUserRequest{
+	message Header{
+		string access_token = 1;
+		string user_id = 2;
+	}
+	Header header = 1;
+}
+
+message GetUserResponse{
+	UserInfo body = 1;
+}
+
+message UpdateUserRequest{
+	message Header{
+		string access_token = 1;
+		string user_id = 2;
+	}
+	Header header = 1;
+
+	message Body{
+		string name = 1;
+		string identity_id = 2;
+		string msisdn = 3;
+		string email = 4;
+		string role = 5;
+		string password = 6;
+	}
+	Body body = 2;
+}
+
+message UpdateUserResponse{
+	string status = 1;
+}
+
+
+message RemoveUserRequest{
+	message Header{
+		string access_token = 1;
+		string user_id = 2;
+	}
+	Header header = 1;
+}
+
+message RemoveUserResponse{
+	string status = 1;
+}
+
+
+message GetUsersRequest{
+	message Header{
+		string access_token = 1;
+	}
+	Header header = 1;
+}
+
+message GetUsersResponse{
+	repeated UserInfo body = 1;
+}
+
+message EnrollUserRequest{
+	message Header{
+		string access_token = 1;
+		string user_id = 2;
+		string candidate_id = 3;
+	}
+	Header header = 1;
+}
+
+message EnrollUserResponse{
+	string status = 1;
+}
+
+message UnrollUserRequest{
+	message Header{
+		string access_token = 1;
+		string user_id = 2;
+		string candidate_id = 3;
+	}
+	Header header = 1;
+}
+
+message UnrollUserResponse{
+	string status = 1;
+}

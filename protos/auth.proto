@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+// Wallet Authentication Service Definition
+service Auth{
+	rpc GetAccessToken(AccessTokenRequest) returns (AccessTokenResponse) {}
+	rpc RevokeAccessToken(RevokeAccessTokenRequest) returns (RevokeAccessTokenResponse) {}
+}
+
+message AccessTokenRequest{
+	string username = 1;
+	string password = 2;
+}
+
+message AccessTokenResponse{
+	message Body{
+		string access_token = 1;
+	}
+	Body body = 1;
+}
+
+message RevokeAccessTokenRequest{
+	string access_token = 1;
+}
+
+message RevokeAccessTokenResponse{
+	string status = 1;
+}

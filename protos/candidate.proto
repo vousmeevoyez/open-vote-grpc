@@ -1,0 +1,130 @@
+syntax = "proto3";
+
+import "user.proto";
+
+service Candidate{
+	rpc CreateCandidate(CreateCandidateRequest) returns (CreateCandidateResponse) {}
+	rpc GetCandidate(GetCandidateRequest) returns (GetCandidateResponse) {}
+	rpc UpdateCandidate(UpdateCandidateRequest) returns (UpdateCandidateResponse) {}
+	rpc RemoveCandidate(RemoveCandidateRequest) returns (RemoveCandidateResponse) {}
+	rpc GetCandidates(GetCandidatesRequest) returns (GetCandidatesResponse) {}
+	rpc CastVote(CastVoteRequest) returns (CastVoteResponse) {}
+	rpc CountVote(CountVoteRequest) returns (CountVoteResponse) {}
+}
+
+message CandidateInfo{
+	string id = 1;
+	string name = 2;
+	string description = 3;
+	string order_no = 4;
+	string images = 5;
+	string status = 6;
+	string created_at = 7;
+	int32 votes = 8;
+	repeated UserInfo users = 9;
+}
+
+message CreateCandidateRequest{
+	message Header{
+		string access_token = 1;
+		string election_id = 2;
+	}
+	Header header = 1;
+	message Body{
+		string name = 1;
+		string description = 2;
+		string order_no = 3;
+		bytes images = 4;
+	}
+	Body body = 2;
+}
+
+message CreateCandidateResponse{
+	message Body{
+		string candidate_id = 1;
+	}
+	Body body = 1;
+}
+
+message GetCandidateRequest{
+	message Header{
+		string access_token = 1;
+		string election_id = 2;
+		string candidate_id = 3;
+	}
+	Header header = 1;
+}
+
+message GetCandidateResponse{
+	CandidateInfo body = 1;
+}
+
+message UpdateCandidateRequest{
+	message Header{
+		string access_token = 1;
+		string election_id = 2;
+		string candidate_id = 3;
+	}
+	Header header = 1;
+
+	message Body{
+		string name = 1;
+		string description = 2;
+		string order_no = 3;
+		bytes images = 4;
+	}
+	Body body = 2;
+}
+
+message UpdateCandidateResponse{
+	string status = 1;
+}
+
+message RemoveCandidateRequest{
+	message Header{
+		string access_token = 1;
+		string election_id = 2;
+		string candidate_id = 3;
+	}
+	Header header = 1;
+}
+
+message RemoveCandidateResponse{
+	string status = 1;
+}
+
+message GetCandidatesRequest{
+	message Header{
+		string access_token = 1;
+		string election_id = 2;
+	}
+	Header header = 1;
+}
+
+message GetCandidatesResponse{
+	repeated CandidateInfo body = 1;
+}
+
+message CastVoteRequest{
+	message Header{
+		string access_token = 1;
+		string candidate_id = 2;
+	}
+	Header header = 1;
+}
+
+message CastVoteResponse{
+	string status = 1;
+}
+
+message CountVoteRequest{
+	message Header{
+		string access_token = 1;
+		string candidate_id = 2;
+	}
+	Header header = 1;
+}
+
+message CountVoteResponse{
+	string status = 1;
+}

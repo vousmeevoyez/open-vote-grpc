@@ -1,0 +1,12 @@
+certifi==2019.3.9
+chardet==3.0.4
+Faker==1.0.5
+grpcio==1.19.0
+grpcio-tools==1.19.0
+idna==2.8
+protobuf==3.7.1
+python-dateutil==2.8.0
+requests==2.21.0
+six==1.12.0
+text-unidecode==1.2
+urllib3==1.24.1

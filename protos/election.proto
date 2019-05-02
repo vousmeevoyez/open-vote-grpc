@@ -1,0 +1,95 @@
+syntax = "proto3";
+
+import "candidate.proto";
+
+service Election{
+	rpc CreateElection(CreateElectionRequest) returns (CreateElectionResponse) {}
+	rpc GetElection(GetElectionRequest) returns (GetElectionResponse) {}
+	rpc UpdateElection(UpdateElectionRequest) returns (UpdateElectionResponse) {}
+	rpc RemoveElection(RemoveElectionRequest) returns (RemoveElectionResponse) {}
+	rpc GetElections(GetElectionsRequest) returns (GetElectionsResponse) {}
+}
+
+message ElectionInfo{
+	string id = 1;
+	string name = 2;
+	string description = 3;
+	string images = 4;
+	string status = 5;
+	string created_at = 6;
+	repeated CandidateInfo candidates = 7;
+}
+
+message CreateElectionRequest{
+	message Header{
+		string access_token = 1;
+	}
+	Header header = 1;
+	message Body{
+		string name = 1;
+		string description = 2;
+		bytes images = 3;
+	}
+	Body body = 2;
+}
+
+message CreateElectionResponse{
+	message Body{
+		string election_id = 1;
+	}
+	Body body = 1;
+}
+
+message GetElectionRequest{
+	message Header{
+		string access_token = 1;
+		string election_id = 2;
+	}
+	Header header = 1;
+}
+
+message GetElectionResponse{
+	ElectionInfo body = 1;
+}
+
+message UpdateElectionRequest{
+	message Header{
+		string access_token = 1;
+		string election_id = 2;
+	}
+	Header header = 1;
+
+	message Body{
+		string name = 1;
+		string description = 2;
+		bytes images = 3;
+	}
+	Body body = 2;
+}
+
+message UpdateElectionResponse{
+	string status = 1;
+}
+
+message RemoveElectionRequest{
+	message Header{
+		string access_token = 1;
+		string election_id = 2;
+	}
+	Header header = 1;
+}
+
+message RemoveElectionResponse{
+	string status = 1;
+}
+
+message GetElectionsRequest{
+	message Header{
+		string access_token = 1;
+	}
+	Header header = 1;
+}
+
+message GetElectionsResponse{
+	repeated ElectionInfo body = 1;
+}
