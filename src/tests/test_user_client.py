@@ -17,8 +17,8 @@ class TestUserClient(unittest.TestCase):
 
         stub = auth_pb2_grpc.AuthStub(self.channel)
         request = auth_pb2.AccessTokenRequest()
-        request.username = "EVOTESUPERADMIN"
-        request.password = "password"
+        request.username = "admin"
+        request.password = "p4ssw0rd"
         response = stub.GetAccessToken(request)
         self._access_token = response.body.access_token
 
@@ -104,6 +104,22 @@ class TestUserClient(unittest.TestCase):
 
         try:
             response = stub.UpdateUser(request)
+        except grpc.RpcError as error:
+            print(error.code())
+            print(error.details())
+        else:
+            print(response)
+
+    def test_enroll_user(self):
+        """ test enroll user """
+        stub = user_pb2_grpc.UserStub(self.channel)
+        request = user_pb2.EnrollUserRequest()
+        # set header
+        request.header.access_token = self._access_token
+        request.header.user_id = self._user_id
+        request.header.candidate_id = "46112627-6073-4ce8-b289-83e67d5c9175"
+        try:
+            response = stub.EnrollUser(request)
         except grpc.RpcError as error:
             print(error.code())
             print(error.details())

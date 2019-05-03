@@ -97,3 +97,19 @@ class User(user_pb2_grpc.UserServicer):
         )
         return response
     # end def
+
+    def EnrollUser(self, request, context):
+        """ Execute Enroll User HTTP Request """
+        url = SERVICES["BASE_URL"] + SERVICES["ENDPOINTS"]["ENROLLMENT"]
+        url = url.format(request.header.user_id)
+        url = url + request.header.candidate_id
+        # retrieve access token
+        access_token = request.header.access_token
+        # extract request payload
+
+        response = remote_call(
+            "POST", url, user_pb2.EnrollUserRequest(),
+            context, access_token
+        )
+        return response
+    # end def
