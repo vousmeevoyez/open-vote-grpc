@@ -15,12 +15,12 @@ class TestCandidateClient(unittest.TestCase):
     def setUp(self):
         # connect to gRPC Server
         #self.channel = grpc.insecure_channel('127.0.0.1:6001')
-        self.channel = grpc.insecure_channel('0.0.0.0:5001')
+        self.channel = grpc.insecure_channel('34.80.69.106:5001')
 
         stub = auth_pb2_grpc.AuthStub(self.channel)
         request = auth_pb2.AccessTokenRequest()
-        request.username = "EVOTESUPERADMIN"
-        request.password = "password"
+        request.username = "admin"
+        request.password = "p4ssw0rd"
         response = stub.GetAccessToken(request)
         self._access_token = response.body.access_token
 
@@ -128,7 +128,7 @@ class TestCandidateClient(unittest.TestCase):
         request = candidate_pb2.GetCandidatesRequest()
         # set header
         request.header.access_token = self._access_token
-        request.header.election_id = self._election_id
+        request.header.election_id = "8be81504-9772-4e69-95a3-0bb18e93d008"
         try:
             response = stub.GetCandidates(request)
         except grpc.RpcError as error:
