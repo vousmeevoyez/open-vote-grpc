@@ -20,7 +20,16 @@ from services.candidate import Candidate
 
 _ONE_DAY_IN_SECONDS = 60 * 60 * 24
 
-def start():
+def load_certificate(certificate_name, private_key_name):
+    """ load certificate and return it"""
+    with open(private_key_name, 'rb') as f:
+        private_key = f.read()
+    with open(certificate_name, 'rb') as f:
+        certificate_chain = f.read()
+    return private_key, certificate_chain
+# end def
+
+def start(is_ssl):
     """ start gRPC Server"""
     host = os.environ.get("GRPC_HOST", '0.0.0.0')
     port = os.environ.get("GRPC_PORT", '5001')
@@ -31,9 +40,25 @@ def start():
     election_pb2_grpc.add_ElectionServicer_to_server(Election(), server)
     candidate_pb2_grpc.add_CandidateServicer_to_server(Candidate(), server)
     # start
-    server.add_insecure_port("{}:{}".format(host, port))
+    if is_ssl:
+        private_key, certificate_chain = load_certificate(
+            os.environ.get("CERTIFICATE"),
+            os.environ.get("PRIVATE_KEY")
+        )
+
+        server_credentials = grpc.ssl_server_credentials(
+            ((private_key, certificate_chain,),)
+        )
+        endpoint = f"{host}:{port}"
+        server.add_secure_port(endpoint, server_credentials)
+        message = "Running gRPC with SSL at {}:{}"
+    else:
+        server.add_insecure_port("{}:{}".format(host, port))
+        message = "Running gRPC withouth SSL at {}:{}"
+    # end if
+
     server.start()
-    print("Listening gRPC server at {}:{}".format(host, port))
+    print(message.format(host, port))
     try:
         while True:
             time.sleep(_ONE_DAY_IN_SECONDS)
@@ -41,4 +66,4 @@ def start():
         server.stop(0)
 
 if __name__ == '__main__':
-    start()
+    start(os.environ.get("GRPC_SSL", False))
