@@ -10,13 +10,11 @@ from autogen import election_pb2_grpc
 from autogen import candidate_pb2
 from autogen import candidate_pb2_grpc
 
-class TestCandidateClient(unittest.TestCase):
+from tests.test_base import TestBase
+
+class TestCandidateClient(TestBase):
 
     def setUp(self):
-        # connect to gRPC Server
-        #self.channel = grpc.insecure_channel('127.0.0.1:6001')
-        self.channel = grpc.insecure_channel('34.80.69.106:5001')
-
         stub = auth_pb2_grpc.AuthStub(self.channel)
         request = auth_pb2.AccessTokenRequest()
         request.username = "admin"

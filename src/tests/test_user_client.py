@@ -8,13 +8,12 @@ from autogen import auth_pb2_grpc
 from autogen import user_pb2
 from autogen import user_pb2_grpc
 
-class TestUserClient(unittest.TestCase):
+from tests.test_base import TestBase
+
+class TestUserClient(TestBase):
 
     def setUp(self):
         # connect to gRPC Server
-        #self.channel = grpc.insecure_channel('127.0.0.1:6001')
-        self.channel = grpc.insecure_channel('0.0.0.0:5001')
-
         stub = auth_pb2_grpc.AuthStub(self.channel)
         request = auth_pb2.AccessTokenRequest()
         request.username = "admin"

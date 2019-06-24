@@ -1,15 +1,11 @@
-import unittest
 import grpc
+
+from tests.test_base import TestBase
 
 from autogen import auth_pb2
 from autogen import auth_pb2_grpc
 
-class TestAuthClient(unittest.TestCase):
-
-    def setUp(self):
-        # connect to gRPC Server
-        #self.channel = grpc.insecure_channel('127.0.0.1:6001')
-        self.channel = grpc.insecure_channel('34.80.69.106:5001')
+class TestAuthClient(TestBase):
 
     def test_get_access_token(self):
         """ test get access token"""

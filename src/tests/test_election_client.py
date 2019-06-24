@@ -8,12 +8,13 @@ from autogen import auth_pb2_grpc
 from autogen import election_pb2
 from autogen import election_pb2_grpc
 
-class TestElectionClient(unittest.TestCase):
+from tests.test_base import TestBase
+
+
+class TestElectionClient(TestBase):
 
     def setUp(self):
         # connect to gRPC Server
-        #self.channel = grpc.insecure_channel('127.0.0.1:6001')
-        self.channel = grpc.insecure_channel('0.0.0.0:5001')
 
         stub = auth_pb2_grpc.AuthStub(self.channel)
         request = auth_pb2.AccessTokenRequest()
