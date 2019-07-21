@@ -14,7 +14,7 @@ from tests.test_base import TestBase
 
 class TestCandidateClient(TestBase):
 
-    def setUp(self):
+    def __init(self):
         stub = auth_pb2_grpc.AuthStub(self.channel)
         request = auth_pb2.AccessTokenRequest()
         request.username = "admin"
@@ -67,6 +67,8 @@ class TestCandidateClient(TestBase):
 
     def test_get_candidate(self):
         """ test get candidate """
+        self.__init()
+
         stub = candidate_pb2_grpc.CandidateStub(self.channel)
         request = candidate_pb2.GetCandidateRequest()
         # set header
@@ -85,6 +87,8 @@ class TestCandidateClient(TestBase):
 
     def test_update_candidate(self):
         """ test update candidate """
+        self.__init()
+
         stub = candidate_pb2_grpc.CandidateStub(self.channel)
         request = candidate_pb2.UpdateCandidateRequest()
         # set header
@@ -106,6 +110,8 @@ class TestCandidateClient(TestBase):
 
     def test_cast_vote(self):
         """ test cast vote """
+        self.__init()
+
         stub = candidate_pb2_grpc.CandidateStub(self.channel)
         request = candidate_pb2.CastVoteRequest()
         # set header
@@ -113,6 +119,7 @@ class TestCandidateClient(TestBase):
         request.header.candidate_id = self._candidate_id
         try:
             response = stub.CastVote(request)
+            print(response)
         except grpc.RpcError as error:
             print(error.code())
             print(error.details())
@@ -122,6 +129,8 @@ class TestCandidateClient(TestBase):
 
     def test_get_candidates(self):
         """ test get candidates """
+        self.__init()
+
         stub = candidate_pb2_grpc.CandidateStub(self.channel)
         request = candidate_pb2.GetCandidatesRequest()
         # set header
@@ -138,6 +147,8 @@ class TestCandidateClient(TestBase):
 
     def test_remove_candidate(self):
         """ test remove candidate """
+        self.__init()
+
         stub = candidate_pb2_grpc.CandidateStub(self.channel)
         request = candidate_pb2.RemoveCandidateRequest()
         # set header

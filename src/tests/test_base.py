@@ -14,7 +14,7 @@ class TestBase(unittest.TestCase):
         self.certificate = "secrets/server.crt"
 
         # setup gRPC
-        self._setup_rpc(self._load_certificate())
+        self._setup_rpc()
 
     def _load_certificate(self):
         """ load certificate and return it"""
@@ -30,5 +30,8 @@ class TestBase(unittest.TestCase):
     def _get_root_path(self):
         return Path(__file__).parent.parent.parent
 
-    def _setup_rpc(self, credentials):
-        self.channel = grpc.secure_channel("localhost:5001", credentials)
+    def _setup_rpc(self, credentials=None):
+        if credentials is None:
+            self.channel = grpc.insecure_channel("grpc.vousmeevoyez.xyz:5001")
+        else:
+            self.channel = grpc.secure_channel("localhost:5001", credentials)

@@ -18,7 +18,7 @@ SERVICES = config.SERVICES
 def remote_call(verb, url, response, context, access_token=None, data=None):
     """ execute HTTP Request """
     headers = {
-        "content-type": "application/json"
+        "content-type": "application/json",
     }
 
     if access_token is not None:
@@ -26,6 +26,7 @@ def remote_call(verb, url, response, context, access_token=None, data=None):
     # end if
 
     r = requests.request(verb, headers=headers, url=url, data=data)
+
     if r.ok:
         if r.status_code == 204:
             response.status = "OK"
@@ -55,6 +56,10 @@ def remote_call(verb, url, response, context, access_token=None, data=None):
     elif r.status_code == 404:
         context.set_details(json.dumps(r.json()['error']))
         context.set_code(grpc.StatusCode.NOT_FOUND)
+    elif r.status_code == 422:
+        print("herer.....")
+        context.set_details(json.dumps(r.json()['error']))
+        context.set_code(grpc.StatusCode.FAILED_PRECONDITION)
     # end if
     elif r.status_code == 500:
         context.set_details("Internal Server Error")

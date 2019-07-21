@@ -108,7 +108,7 @@ class User(user_pb2_grpc.UserServicer):
         # extract request payload
 
         response = remote_call(
-            "POST", url, user_pb2.EnrollUserRequest(),
+            "POST", url, user_pb2.EnrollUserResponse(),
             context, access_token
         )
         return response
